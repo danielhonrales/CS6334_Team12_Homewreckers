@@ -1,0 +1,11 @@
+Model Information:
+* title:	Ambient_06_24406
+* source:	https://sketchfab.com/3d-models/ambient-06-24406-76566868b420416988faeb464635c0cf
+* author:	scsilla003 (https://sketchfab.com/scsilla003)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Ambient_06_24406" (https://sketchfab.com/3d-models/ambient-06-24406-76566868b420416988faeb464635c0cf) by scsilla003 (https://sketchfab.com/scsilla003) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
