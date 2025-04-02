@@ -24,8 +24,7 @@ public class GazeInteractor : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        raycastLength = 1;
-        layerMask = LayerMask.GetMask("Interactable") | LayerMask.GetMask("Terrain") | LayerMask.GetMask("UI");
+
     }
 
     // Update is called once per frame
@@ -40,6 +39,7 @@ public class GazeInteractor : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, raycastLength, layerMask))
         {
             GameObject hitObject = hit.collider.gameObject;
+            //Debug.Log(hitObject.name);
 
             if (hitObject.layer == LayerMask.NameToLayer("Interactable")) {
                 if (hitObject != gazedObject)
@@ -62,11 +62,9 @@ public class GazeInteractor : MonoBehaviour
                 gazedObject = null;
             }
 
-            if (hitObject.layer == LayerMask.NameToLayer("Terrain")) {
+            if (hitObject.layer == LayerMask.NameToLayer("Door")) {
                 lineRenderer.SetPosition(1, hit.point);
-                if (controllerInteractor.openObjectMenu == null) {
-                    teleportation.OnTerrainHit(hit);
-                }
+                teleportation.ChangeRooms();
             } else {
                 teleportation.NoTerrainHit();
             }

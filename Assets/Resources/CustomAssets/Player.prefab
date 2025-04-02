@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 7076741105936958961}
   - component: {fileID: 87543665406815428}
   - component: {fileID: 4145107577018782509}
-  - component: {fileID: 1320116339958673107}
   - component: {fileID: 3128610817487209933}
+  - component: {fileID: 8521568898220787355}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -32,10 +32,11 @@ Transform:
   m_GameObject: {fileID: 2900071249138355108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 1.337237, y: 1.56, z: 0.33029056}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2765666764761464726}
   - {fileID: 7421010169949487879}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -107,24 +108,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2900071249138355108}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49f19903ea50e194baf0ff0627ad00c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerInteractor: {fileID: 0}
-  cameraObject: {fileID: 0}
+  controllerInteractor: {fileID: 7076741105936958961}
+  cameraObject: {fileID: 7421010169195326978}
   gazedObject: {fileID: 0}
   gazedUI: {fileID: 0}
   reticle: {fileID: 7421010168531965295}
-  lineRenderer: {fileID: 1320116339958673107}
-  raycastOffset: {x: 0, y: 0, z: 0}
+  lineRenderer: {fileID: 8546209955613491743}
+  raycastOffset: {x: 0, y: -0.1, z: 0}
   teleportation: {fileID: 4145107577018782509}
-  raycastLength: 0
+  raycastLength: 5
   raycastLengthBeforeUI: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 672
 --- !u!114 &4145107577018782509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,24 +133,103 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2900071249138355108}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f717b01baea2f5547897c4bcac1161e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  everythingElse: []
-  cameraObject: {fileID: 0}
-  cue: {fileID: 0}
-  maxDistance: 0
-  raycastOffset: {x: 0, y: 0, z: 0}
---- !u!120 &1320116339958673107
+  currentRoom: Kitchen
+  kitchenPoint: {fileID: 0}
+  livingRoomPoint: {fileID: 0}
+  characterController: {fileID: 8932256326767337788}
+--- !u!114 &3128610817487209933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900071249138355108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1422470101
+  InScenePlacedSourceGlobalObjectIdHash: 536422244
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!136 &8521568898220787355
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900071249138355108}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: -1, z: 0.5}
+--- !u!1 &5840031074032017287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2765666764761464726}
+  - component: {fileID: 8546209955613491743}
+  m_Layer: 3
+  m_Name: RaycastLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2765666764761464726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5840031074032017287}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.183, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5265043019826010553}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &8546209955613491743
 LineRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2900071249138355108}
+  m_GameObject: {fileID: 5840031074032017287}
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -249,31 +329,6 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &3128610817487209933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2900071249138355108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2694930564
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!1001 &278561187930277526
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ public class ControllerInteractor : MonoBehaviour
         }
 
         if (mainMenu.activeSelf != true) {
-            // Object Menu
+            /* // Object Menu
             if (Input.GetButton("js2") || Input.GetKeyDown(KeyCode.Q)) {
                 GameObject gazedObject = gazeInteractor.gazedObject;
                 if (gazedObject != null && gazedObject.transform.Find("ObjectMenu") != null) {
@@ -49,9 +49,15 @@ public class ControllerInteractor : MonoBehaviour
                     characterMovement.enabled = false;
                     gazeInteractor.RaycastForUI();
                 }
+            } */
+
+            if (Input.GetButton("js2") || Input.GetKeyDown(KeyCode.Q))
+            {
+                GameObject gazedObject = gazeInteractor.gazedObject;
+                GrabObject(gazedObject);
             }
 
-            // Ungrab
+                // Ungrab
             if (Input.GetButton("js10") || Input.GetKeyDown(KeyCode.A)) {
                 if (grabbedObject != null) {
                     UngrabObject();
