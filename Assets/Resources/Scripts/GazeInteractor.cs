@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class GazeInteractor : MonoBehaviour
+public class GazeInteractor : NetworkBehaviour 
 {
 
     public ControllerInteractor controllerInteractor;
@@ -30,73 +31,76 @@ public class GazeInteractor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //reticle.SetActive(true);
-        lineRenderer.positionCount = 2;
-        lineRenderer.SetPosition(0, cameraObject.transform.position + raycastOffset);
-        Outline outline;
+        if (IsOwner) {
+            //reticle.SetActive(true);
+            lineRenderer.positionCount = 2;
+            lineRenderer.SetPosition(0, cameraObject.transform.position + raycastOffset);
+            Outline outline;
 
-        Ray ray = new(cameraObject.transform.position + raycastOffset, cameraObject.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, raycastLength, layerMask))
-        {
-            GameObject hitObject = hit.collider.gameObject;
-            //Debug.Log(hitObject.name);
+            Ray ray = new(cameraObject.transform.position + raycastOffset, cameraObject.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, raycastLength, layerMask))
+            {
+                GameObject hitObject = hit.collider.gameObject;
+                //Debug.Log(hitObject.name);
 
-            if (hitObject.layer == LayerMask.NameToLayer("Interactable")) {
-                if (hitObject != gazedObject)
-                {
+                if (hitObject.layer == LayerMask.NameToLayer("Interactable")) {
+                    if (hitObject != gazedObject)
+                    {
+                        if (gazedObject != null && (outline = gazedObject.GetComponent<Outline>()) != null) {
+                            outline.enabled = false;
+                        }
+                        // Update current gazed object
+                        gazedObject = hitObject;
+                        if ((outline = gazedObject.GetComponent<Outline>()) != null)
+                        {
+                            outline.enabled = true;
+                        }
+                    }
+                    lineRenderer.SetPosition(1, hit.point);
+                } else {
                     if (gazedObject != null && (outline = gazedObject.GetComponent<Outline>()) != null) {
                         outline.enabled = false;
                     }
-                    // Update current gazed object
-                    gazedObject = hitObject;
-                    if ((outline = gazedObject.GetComponent<Outline>()) != null)
-                    {
-                        outline.enabled = true;
-                    }
+                    gazedObject = null;
                 }
-                lineRenderer.SetPosition(1, hit.point);
+
+                if (hitObject.layer == LayerMask.NameToLayer("Door")) {
+                    lineRenderer.SetPosition(1, hit.point);
+                    teleportation.ChangeRooms();
+                } else {
+                    teleportation.NoTerrainHit();
+                }
+
+                /* if (hitObject.layer == LayerMask.NameToLayer("UI")) {
+                    if (gazedUI != null && (button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
+                        button.hovered = false;
+                    }
+                    // Update current gazed object
+                    gazedUI = hitObject;
+                    if ((button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
+                        button.hovered = true;
+                    }
+
+                    lineRenderer.SetPosition(1, hit.point);
+                } else {
+                    if (gazedUI != null && (button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
+                        button.hovered = false;
+                    }
+                    gazedUI = null;
+                } */
             } else {
                 if (gazedObject != null && (outline = gazedObject.GetComponent<Outline>()) != null) {
                     outline.enabled = false;
                 }
                 gazedObject = null;
-            }
-
-            if (hitObject.layer == LayerMask.NameToLayer("Door")) {
-                lineRenderer.SetPosition(1, hit.point);
-                teleportation.ChangeRooms();
-            } else {
                 teleportation.NoTerrainHit();
-            }
-
-            /* if (hitObject.layer == LayerMask.NameToLayer("UI")) {
-                if (gazedUI != null && (button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
+                /* if (gazedUI != null && (button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
                     button.hovered = false;
-                }
-                // Update current gazed object
-                gazedUI = hitObject;
-                if ((button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
-                    button.hovered = true;
-                }
-
-                lineRenderer.SetPosition(1, hit.point);
-            } else {
-                if (gazedUI != null && (button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
-                    button.hovered = false;
-                }
+                } */
                 gazedUI = null;
-            } */
-        } else {
-            if (gazedObject != null && (outline = gazedObject.GetComponent<Outline>()) != null) {
-                outline.enabled = false;
+                lineRenderer.SetPosition(1, cameraObject.transform.position + (cameraObject.transform.forward * raycastLength));
             }
-            gazedObject = null;
-            teleportation.NoTerrainHit();
-            /* if (gazedUI != null && (button = gazedUI.GetComponent<ObjectMenuButton>()) != null) {
-                button.hovered = false;
-            } */
-            gazedUI = null;
-            lineRenderer.SetPosition(1, cameraObject.transform.position + (cameraObject.transform.forward * raycastLength));
+
         }
     }
 

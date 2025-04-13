@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using Unity.Netcode;
 
-public class ControllerInteractor : MonoBehaviour
+public class ControllerInteractor : NetworkBehaviour
 {
 
     public GazeInteractor gazeInteractor;
@@ -19,22 +16,27 @@ public class ControllerInteractor : MonoBehaviour
     public GameObject grabbedObject;
     public Vector3 grabOffset;
 
-    public GameObject world;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        mainMenu.SetActive(false);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < 15; i++) {
+        if (!IsOwner)  return;
+        /* for (int i = 0; i < 15; i++) {
             if (Input.GetAxis(string.Format("js{0}", i)) != 0) {
                 Debug.Log(string.Format("js{0}", i));
             }
-        }
+        } */
 
         if (mainMenu.activeSelf != true) {
             /* // Object Menu
@@ -51,21 +53,18 @@ public class ControllerInteractor : MonoBehaviour
                 }
             } */
 
-            if (Input.GetButton("js2") || Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetButtonDown(ButtonMappings.GetMapping("Trigger")) || Input.GetKeyDown(KeyCode.Q))
             {
-                GameObject gazedObject = gazeInteractor.gazedObject;
-                GrabObject(gazedObject);
-            }
-
-                // Ungrab
-            if (Input.GetButton("js10") || Input.GetKeyDown(KeyCode.A)) {
-                if (grabbedObject != null) {
+                if (grabbedObject == null) {
+                    GameObject gazedObject = gazeInteractor.gazedObject;
+                    GrabObject(gazedObject);
+                } else {
                     UngrabObject();
                 }
             }
 
             // Main Menu
-            if (Input.GetButton("js0") || Input.GetKeyDown(KeyCode.M)) {
+            if (Input.GetButtonDown(ButtonMappings.GetMapping("Menu")) || Input.GetKeyDown(KeyCode.M)) {
                 characterMovement.enabled = false;
                 gazeInteractor.enabled = false;
                 if (openObjectMenu != null) {
@@ -78,11 +77,24 @@ public class ControllerInteractor : MonoBehaviour
 
             // Grabbed Object tracking
             if (grabbedObject != null) {
-                grabbedObject.transform.localPosition = Vector3.Scale(gazeInteractor.cameraObject.transform.forward, grabOffset);
-                grabbedObject.transform.localPosition = new Vector3(grabbedObject.transform.localPosition.x, Math.Min(0.5f, grabbedObject.transform.localPosition.y), grabbedObject.transform.localPosition.z);
-                grabbedObject.transform.rotation = gazeInteractor.cameraObject.transform.rotation;
+                if (IsHost) {
+                    grabbedObject.transform.position = gazeInteractor.cameraObject.transform.position + gazeInteractor.cameraObject.transform.forward * grabOffset.z + gazeInteractor.cameraObject.transform.right * grabOffset.x + gazeInteractor.cameraObject.transform.up * grabOffset.y;
+                    //grabbedObject.transform.localPosition = new Vector3(grabbedObject.transform.localPosition.x, Math.Min(0.5f, grabbedObject.transform.localPosition.y), grabbedObject.transform.localPosition.z);
+                    grabbedObject.transform.localRotation = Quaternion.Euler(Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, 0f);
+                } else {
+                    Vector3 targetPosition = gazeInteractor.cameraObject.transform.position + gazeInteractor.cameraObject.transform.forward * grabOffset.z + gazeInteractor.cameraObject.transform.right * grabOffset.x + gazeInteractor.cameraObject.transform.up * grabOffset.y;
+                    Quaternion targetRotation = Quaternion.Euler(Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, 0f);
+                    RequestMoveServerRpc(targetPosition, targetRotation);
+                }
             }
         }
+    }
+
+    [ServerRpc]
+    void RequestMoveServerRpc(Vector3 newPosition, Quaternion newRotation)
+    {
+        grabbedObject.transform.position = newPosition;
+        grabbedObject.transform.localRotation = newRotation;
     }
 
     public void TranslateObject() {
@@ -104,16 +116,18 @@ public class ControllerInteractor : MonoBehaviour
         GameObject gazedObject = (objectToGrab == null) ? gazeInteractor.gazedObject : objectToGrab;
         if (gazedObject != null) {
             gazedObject.layer = LayerMask.NameToLayer("Grabbed");
+            gazedObject.GetComponent<Collider>().enabled = false;
             gazedObject.GetComponent<Rigidbody>().isKinematic = true;
             gazedObject.GetComponent<Rigidbody>().freezeRotation = true;
-            gazedObject.transform.parent = transform.Find("XRCardboardRig");
+            //gazedObject.transform.parent = gazeInteractor.cameraObject.transform;
             grabbedObject = gazedObject;
         }
     }
 
     public void UngrabObject() {
         if (grabbedObject != null) {
-            grabbedObject.transform.parent = world.transform;
+            grabbedObject.transform.parent = null;
+            grabbedObject.GetComponent<Collider>().enabled = true;
             grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
             grabbedObject.GetComponent<Rigidbody>().freezeRotation = false;
             grabbedObject.layer = LayerMask.NameToLayer("Interactable");

@@ -26,7 +26,7 @@ public class Teleportation : MonoBehaviour
     }
 
     public void ChangeRooms() {
-        if (Input.GetButtonDown("js3") || Input.GetKeyDown(KeyCode.Y)) {
+        if (Input.GetButtonDown(ButtonMappings.GetMapping("X")) || Input.GetKeyDown(KeyCode.Y)) {
             if (currentRoom == "Kitchen")
             {
                 currentRoom = "LivingRoom";
