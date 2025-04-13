@@ -8,14 +8,14 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/assignment02.unity
     guid: 6c0f192adace8f341b910203d922a3ff
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/sampleScene.unity
     guid: 9420115594e2bfa488863f8a49a8f503
   - enabled: 0
     path: Assets/MiLabCardboardExtension/Scenes/Map Bluetooth Key.unity
     guid: 1eb807ac90408844da5fd17e087fea1e
   - enabled: 1
-    path: Assets/Scenes/main-daniel.unity
+    path: Assets/Scenes/Main.unity
     guid: 6afaef43dbd7cda4f9fc7e512452fbf4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}

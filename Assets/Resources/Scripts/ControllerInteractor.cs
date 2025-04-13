@@ -74,7 +74,7 @@ public class ControllerInteractor : NetworkBehaviour
                 if (gazedObject) {
                     InteractableObject interactableObject = gazedObject.GetComponent<InteractableObject>();
                     if (interactableObject) {
-                        interactableObject.TriggerInteraction();
+                        interactableObject.TriggerGrab();
                     }
                 }
 

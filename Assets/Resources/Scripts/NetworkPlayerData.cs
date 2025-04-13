@@ -11,6 +11,8 @@ public class NetworkPlayerData : NetworkBehaviour
     public NetworkVariable<FixedString32Bytes> playerName = new(
         "", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+    public CharacterMovement characterMovement;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,14 +25,15 @@ public class NetworkPlayerData : NetworkBehaviour
     }
 
     IEnumerator Initialize() {
-        while (vrCameraRig == null || lineRenderer == null) {
+        while (vrCameraRig == null || lineRenderer == null || characterMovement == null) {
             yield return new WaitForSeconds(0.1f);
         }
         if (IsOwner) {
             gameObject.name = "PlayerMe";
             vrCameraRig.SetActive(true);
             if (IsHost) {
-                SetPlayerNameServerRpc("Host");                
+                SetPlayerNameServerRpc("Host");   
+                characterMovement.SetRole(true);           
             } else {
                 SetPlayerNameServerRpc("Client");
             }

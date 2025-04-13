@@ -1,27 +1,24 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class WireShock : MonoBehaviour
 {
     // Reference to the destruction bar value
     public float destructionBar = 0f;
-    public float shockDamage = 10f; // Amount to add to the destruction bar on shock
-    public float interactionRadius = 3f; // Radius within which the player can interact
-    public Transform player; // Reference to the player's transform
+    //public float shockDamage = 10f; // Amount to add to the destruction bar on shock
+    public float interactionRadius = 1f; // Radius within which the player can interact
 
-    private bool isPlayerInRange = false; // Tracks if the player is in range
 
     private void Update()
     {
-        // Check if the player is within interaction radius
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        isPlayerInRange = distanceToPlayer <= interactionRadius;
 
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E)) // Press 'E' to interact
-        {
-            OnShock(); // Trigger shock effect
-            destructionBar += shockDamage; // Add shock damage to destruction bar
-            Debug.Log("Player interacted with wire! Destruction bar increased.");
-        }
+    }
+
+    void OnTriggerEnter(UnityEngine.Collider other)
+    {
+        OnShock(); // Trigger shock effect
+        ShockServerRpc();
+        Debug.Log("Player interacted with wire! Destruction bar increased.");
     }
 
     private void OnDrawGizmosSelected()
@@ -36,5 +33,11 @@ public class WireShock : MonoBehaviour
     {
         // Example: Play sound, visual effect, or reduce player health
         Debug.Log("Player shocked!");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ShockServerRpc()
+    {
+        GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestruction();
     }
 }

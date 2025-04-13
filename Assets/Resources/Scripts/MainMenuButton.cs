@@ -10,6 +10,7 @@ public class MainMenuButton : MonoBehaviour
     [SerializeField] private UnityEvent OnClickEvent;
     public MainMenu mainMenu;
     public TMP_Text buttonText;
+    public CharacterMovement characterMovement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +29,11 @@ public class MainMenuButton : MonoBehaviour
     }
 
     public void Resume() {
+        mainMenu.CloseMenu();
+    }
+
+    public void Swap() {
+        characterMovement.ToggleRole();
         mainMenu.CloseMenu();
     }
 

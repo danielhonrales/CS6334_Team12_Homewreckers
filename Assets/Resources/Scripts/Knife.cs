@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class Knife : MonoBehaviour
@@ -29,5 +30,11 @@ public class Knife : MonoBehaviour
     public void Unstuck()
     {
         //rb.constraints = RigidbodyConstraints.None;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void KnifeDangerousServerRpc()
+    {
+        GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestruction();
     }
 }

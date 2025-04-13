@@ -9,6 +9,8 @@ public class CharacterMovement : NetworkBehaviour
     public GameObject cameraObj;
     [Tooltip("Should be checked if using the Bluetooth Controller to move. If using keyboard, leave this unchecked.")]
     public bool joyStickMode;
+    public GazeInteractor gazeInteractor;
+    public bool adult;
 
     // Start is called before the first frame update
     void Start()
@@ -44,10 +46,40 @@ public class CharacterMovement : NetworkBehaviour
             moveVect += forwardVect * vertComp;
 
             moveVect *= speed;
-        
-
+    
             charCntrl.SimpleMove(moveVect);
 
+        }
+    }
+
+    public void SetRole(bool adult = false) {
+        if (adult) {
+            speed = 5f;
+            charCntrl.height = 4;
+            gazeInteractor.raycastLength = 10;
+            charCntrl.enabled = false;
+            transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);
+            charCntrl.enabled = true;
+        } else {
+            speed = 8f;
+            charCntrl.height = 1;
+            gazeInteractor.raycastLength = 5;
+        }
+    }
+
+    public void ToggleRole() {
+        adult = !adult;
+        if (adult) {
+            speed = 5f;
+            charCntrl.height = 4;
+            gazeInteractor.raycastLength = 10;
+            charCntrl.enabled = false;
+            transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);
+            charCntrl.enabled = true;
+        } else {
+            speed = 8f;
+            charCntrl.height = 1;
+            gazeInteractor.raycastLength = 5;
         }
     }
 }

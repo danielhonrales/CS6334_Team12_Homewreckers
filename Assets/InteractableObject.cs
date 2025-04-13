@@ -4,7 +4,8 @@ using UnityEngine.Events;
 public class InteractableObject : MonoBehaviour
 {
 
-    [SerializeField] private UnityEvent OnClickEvent;
+    [SerializeField] private UnityEvent OnGrabEvent;
+    [SerializeField] private UnityEvent OnInteractEvent;
     public bool grabbable;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,7 +20,11 @@ public class InteractableObject : MonoBehaviour
         
     }
 
+    public void TriggerGrab() {
+        OnGrabEvent?.Invoke();
+    }
+
     public void TriggerInteraction() {
-        OnClickEvent.Invoke();
+        OnInteractEvent?.Invoke();
     }
 }
