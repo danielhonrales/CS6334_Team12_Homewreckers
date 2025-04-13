@@ -3,9 +3,13 @@ using Unity.Netcode;
 using System.Threading.Tasks;
 using UnityEditor.PackageManager;
 using UnityEditor.Networking.PlayerConnection;
+using System;
 
 public class NetworkControl : MonoBehaviour
 {
+
+    public NetworkVariable<int> destructionPoints = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     public void StartServer() {
         NetworkManager.Singleton.StartServer();
     }
@@ -41,4 +45,19 @@ public class NetworkControl : MonoBehaviour
             Debug.Log("Connected as client");
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void IncreaseDestruction()
+    {
+        destructionPoints.Value += 1;
+        destructionPoints.Value = Math.Min(destructionPoints.Value, 4);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DecreaseDestruction()
+    {
+        destructionPoints.Value -= 1;
+        destructionPoints.Value = Math.Max(destructionPoints.Value, 0);
+    }
+    
 }

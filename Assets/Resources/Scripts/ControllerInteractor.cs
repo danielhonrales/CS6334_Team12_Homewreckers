@@ -57,9 +57,32 @@ public class ControllerInteractor : NetworkBehaviour
             {
                 if (grabbedObject == null) {
                     GameObject gazedObject = gazeInteractor.gazedObject;
-                    GrabObject(gazedObject);
+                    if (gazedObject) {
+                        InteractableObject interactableObject = gazedObject.GetComponent<InteractableObject>();
+                        if (interactableObject && interactableObject.grabbable) {
+                            GrabObject(gazedObject);
+                        }
+                    }
                 } else {
                     UngrabObject();
+                }
+            }
+
+            if (Input.GetButtonDown(ButtonMappings.GetMapping("A")) || Input.GetKeyDown(KeyCode.A))
+            {
+                GameObject gazedObject = gazeInteractor.gazedObject;
+                if (gazedObject) {
+                    InteractableObject interactableObject = gazedObject.GetComponent<InteractableObject>();
+                    if (interactableObject) {
+                        interactableObject.TriggerInteraction();
+                    }
+                }
+
+                if (grabbedObject) {
+                    InteractableObject interactableObject = grabbedObject.GetComponent<InteractableObject>();
+                    if (interactableObject) {
+                        interactableObject.TriggerInteraction();
+                    }
                 }
             }
 
@@ -90,7 +113,7 @@ public class ControllerInteractor : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void RequestMoveServerRpc(Vector3 newPosition, Quaternion newRotation)
     {
         grabbedObject.transform.position = newPosition;

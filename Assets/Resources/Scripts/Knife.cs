@@ -4,6 +4,7 @@ public class Knife : MonoBehaviour
 {
 
     public Rigidbody rb;
+    public bool dangerous;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,15 +15,19 @@ public class Knife : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (dangerous) {
+            dangerous = false;
+        }
     }
 
     public void Stuck() {
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        dangerous = true;
+        GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestruction();
+        //rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public void Unstuck()
     {
-        rb.constraints = RigidbodyConstraints.None;
+        //rb.constraints = RigidbodyConstraints.None;
     }
 }
