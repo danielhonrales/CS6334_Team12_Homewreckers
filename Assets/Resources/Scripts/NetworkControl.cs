@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System;
 using Unity.Netcode.Transports.UTP;
 
-public class NetworkControl : MonoBehaviour
+public class NetworkControl : NetworkBehaviour
 {
 
     public NetworkVariable<int> destructionPoints = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -19,6 +19,10 @@ public class NetworkControl : MonoBehaviour
 
     public void StartHost() {
         NetworkManager.Singleton.StartHost();
+    }
+
+    public override void OnNetworkSpawn() {
+        
     }
 
     public void Update()
@@ -52,14 +56,14 @@ public class NetworkControl : MonoBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void IncreaseDestruction()
+    public void IncreaseDestructionServerRpc()
     {
         destructionPoints.Value += 1;
         destructionPoints.Value = Math.Min(destructionPoints.Value, 4);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void DecreaseDestruction()
+    public void DecreaseDestructionServerRpc()
     {
         destructionPoints.Value -= 1;
         destructionPoints.Value = Math.Max(destructionPoints.Value, 0);

@@ -7,6 +7,7 @@ public class Stove : NetworkBehaviour
     public Outline outline;
     public NetworkVariable<bool> isOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public ParticleSystem fire;
+    public AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,10 +20,12 @@ public class Stove : NetworkBehaviour
     {
         if (isOn.Value && !fire.isPlaying) {
             fire.Play();
+            audioSource.Play();
         } 
 
         if (!isOn.Value && fire.isPlaying) {
             fire.Stop();
+            audioSource.Stop();
         }
     }
 
@@ -31,7 +34,7 @@ public class Stove : NetworkBehaviour
     {
         if (!isOn.Value) {
             isOn.Value = true;
-            GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestruction();
+            GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestructionServerRpc();
         }
     }
 
@@ -40,7 +43,7 @@ public class Stove : NetworkBehaviour
     {
         if (isOn.Value) {
             isOn.Value = false;
-            GameObject.Find("GameController").GetComponent<NetworkControl>().DecreaseDestruction();
+            GameObject.Find("GameController").GetComponent<NetworkControl>().DecreaseDestructionServerRpc();
         }
     }
 }

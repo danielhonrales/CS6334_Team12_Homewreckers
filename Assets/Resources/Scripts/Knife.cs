@@ -1,11 +1,11 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class Knife : MonoBehaviour
+public class Knife : NetworkBehaviour
 {
 
     public Rigidbody rb;
-    public bool dangerous;
+    public AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,25 +16,31 @@ public class Knife : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (dangerous) {
-            dangerous = false;
+    }
+
+    public void Grab() {
+        rb.constraints = RigidbodyConstraints.None;
+    }
+
+    public void Release() {
+        if (!IsOwner) return;
+        rb.constraints = RigidbodyConstraints.None;
+        rb.AddForce(GameObject.Find("PlayerMe").GetComponent<GazeInteractor>().cameraObject.transform.forward * 1000f);
+        
+        audioSource.Play();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name);
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
+            
+            GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestructionServerRpc();
         }
-    }
 
-    public void Stuck() {
-        dangerous = true;
-        GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestruction();
-        //rb.constraints = RigidbodyConstraints.FreezeAll;
-    }
-
-    public void Unstuck()
-    {
-        //rb.constraints = RigidbodyConstraints.None;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void KnifeDangerousServerRpc()
-    {
-        GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestruction();
+        if (collision.gameObject.layer == LayerMask.NameToLayer("CuttingBoard")) {
+            GameObject.Find("GameController").GetComponent<NetworkControl>().DecreaseDestructionServerRpc();
+        }
     }
 }

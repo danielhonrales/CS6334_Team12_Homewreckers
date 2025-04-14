@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
 public class CharacterMovement : NetworkBehaviour
 {
     CharacterController charCntrl;
@@ -52,7 +53,10 @@ public class CharacterMovement : NetworkBehaviour
         }
     }
 
-    public void SetRole(bool adult = false) {
+    public IEnumerator SetRole(bool adult = false) {
+        while (!charCntrl) {
+            yield return new WaitForSeconds(.1f);
+        }
         if (adult) {
             speed = 5f;
             charCntrl.height = 4;

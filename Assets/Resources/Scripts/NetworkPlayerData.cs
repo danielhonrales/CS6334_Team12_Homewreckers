@@ -9,7 +9,7 @@ public class NetworkPlayerData : NetworkBehaviour
     public GameObject vrCameraRig;
     public LineRenderer lineRenderer;
     public NetworkVariable<FixedString32Bytes> playerName = new(
-        "", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        "", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public CharacterMovement characterMovement;
 
@@ -29,11 +29,16 @@ public class NetworkPlayerData : NetworkBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         if (IsOwner) {
-            gameObject.name = "PlayerMe";
+            if (IsHost) {
+                gameObject.name = "PlayerMe";
+            } else {
+                gameObject.name = "PlayerMe";
+            }
+            
             vrCameraRig.SetActive(true);
             if (IsHost) {
-                SetPlayerNameServerRpc("Host");   
-                characterMovement.SetRole(true);           
+                SetPlayerNameServerRpc("Host");
+                StartCoroutine(characterMovement.SetRole(true));
             } else {
                 SetPlayerNameServerRpc("Client");
             }
@@ -50,7 +55,7 @@ public class NetworkPlayerData : NetworkBehaviour
         
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void SetPlayerNameServerRpc(string newName)
     {
         playerName.Value = newName;

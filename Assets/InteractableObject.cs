@@ -6,6 +6,7 @@ public class InteractableObject : MonoBehaviour
 
     [SerializeField] private UnityEvent OnGrabEvent;
     [SerializeField] private UnityEvent OnInteractEvent;
+    [SerializeField] private UnityEvent OnReleaseEvent;
     public bool grabbable;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,5 +27,9 @@ public class InteractableObject : MonoBehaviour
 
     public void TriggerInteraction() {
         OnInteractEvent?.Invoke();
+    }
+
+    public void TriggerRelease() {
+        OnReleaseEvent?.Invoke();
     }
 }

@@ -1,0 +1,65 @@
+using Unity.Netcode;
+using UnityEngine;
+
+public class Guitar : NetworkBehaviour
+{
+
+    public Rigidbody rb;
+    public AudioSource audioSource;
+    public Mesh mesh;
+    public MeshFilter meshFilter;
+
+    public NetworkVariable<bool> interactedWith = new(
+        false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> broken = new(
+        false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (broken.Value && meshFilter.mesh != mesh) {
+            meshFilter.mesh = mesh;
+        }
+    }
+
+    public void Grab() {
+        rb.constraints = RigidbodyConstraints.None;
+        SetInteractedWithServerRpc(true);
+    }
+
+    public void Release() {
+        if (!IsOwner) return;
+        rb.constraints = RigidbodyConstraints.None;
+        rb.AddForce(GameObject.Find("PlayerMe").GetComponent<GazeInteractor>().cameraObject.transform.forward * 1000f);
+        
+        audioSource.Play();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && interactedWith.Value && !broken.Value) {
+            meshFilter.mesh = mesh;
+            GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestructionServerRpc();
+            SetBrokenServerRpc(true);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetInteractedWithServerRpc(bool value)
+    {
+        interactedWith.Value = value;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetBrokenServerRpc(bool value)
+    {
+        broken.Value = value;
+    }
+}

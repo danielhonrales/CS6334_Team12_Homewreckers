@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Extinguisher : MonoBehaviour
+public class Extinguisher : NetworkBehaviour
 {
 
     public ParticleSystem foam;
+    public AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,13 +21,31 @@ public class Extinguisher : MonoBehaviour
     }
 
     public void Extinguish() {
+        if (!IsOwner) return;
         StartCoroutine(Foam());
-        GameObject.Find("Stove").GetComponent<Stove>().TurnOffServerRpc();
+        GameObject gazedObject;
+        gazedObject = GameObject.Find("PlayerMe").GetComponent<GazeInteractor>().gazedObject;
+        if (gazedObject && gazedObject.name == "Stove") {
+            gazedObject.GetComponent<Stove>().TurnOffServerRpc();
+        }
     }
 
     public IEnumerator Foam() {
         foam.Play();
+        audioSource.Play();
         yield return new WaitForSeconds(2f);
         foam.Stop();
+    }
+
+    public void Release() {
+        ReturnOwnershipToServerRpc(GetComponent<NetworkObject>());
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void ReturnOwnershipToServerRpc(NetworkObjectReference networkObjectRef)
+    {
+        if (networkObjectRef.TryGet(out NetworkObject networkObject)) {
+            networkObject.ChangeOwnership(NetworkManager.ServerClientId);
+        }
     }
 }
