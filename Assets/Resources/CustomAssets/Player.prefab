@@ -581,7 +581,7 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
-  characterMovement: {fileID: 0}
+  characterMovement: {fileID: 1686465679700027421}
 --- !u!114 &4224158274958964160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2067,6 +2067,10 @@ PrefabInstance:
     - target: {fileID: 7287137019069338686, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287137019069338686, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7287137019112715942, guid: 186741bf17cbb0e4fa3ef06daa1f190f, type: 3}
       propertyPath: m_Layer

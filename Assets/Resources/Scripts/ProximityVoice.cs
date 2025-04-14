@@ -12,7 +12,7 @@ public class ProximityVoice : NetworkBehaviour
 
     private float sendInterval = 0.1f; // 100ms
     private float lastSendTime;
-    private float maxDistance = 7f;
+    private float maxDistance = 2f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

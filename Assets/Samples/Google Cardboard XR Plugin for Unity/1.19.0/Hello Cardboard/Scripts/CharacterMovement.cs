@@ -71,7 +71,7 @@ public class CharacterMovement : NetworkBehaviour
         adult = !adult;
         if (adult) {
             speed = 5f;
-            charCntrl.height = 4;
+            charCntrl.height = 3;
             gazeInteractor.raycastLength = 10;
             charCntrl.enabled = false;
             transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);

@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Threading.Tasks;
 using System;
+using Unity.Netcode.Transports.UTP;
 
 public class NetworkControl : MonoBehaviour
 {
@@ -31,6 +32,9 @@ public class NetworkControl : MonoBehaviour
 
     public async void ConnectPlayer() {
         Debug.Log("Starting client");
+        var clientTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+        //clientTransport.ConnectionData.Address = "192.168.0.196";
+        //clientTransport.ConnectionData.Port = 7777;
         StartClient();
         await Task.Delay(1000);
         
@@ -38,6 +42,9 @@ public class NetworkControl : MonoBehaviour
             Debug.Log("No host found, Starting host");
             NetworkManager.Singleton.Shutdown();
             await Task.Yield();
+            var hostTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+            //hostTransport.ConnectionData.Address = "0.0.0.0";
+            //hostTransport.ConnectionData.Port = 7777;
             StartHost();
         } else {
             Debug.Log("Connected as client");
