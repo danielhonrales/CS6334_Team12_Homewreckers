@@ -4,6 +4,7 @@ using System.Collections;
 public class CharacterMovement : NetworkBehaviour
 {
     CharacterController charCntrl;
+    Animator animator;
     [Tooltip("The speed at which the character will move.")]
     public float speed = 5f;
     [Tooltip("The camera representing where the character is looking.")]
@@ -17,6 +18,7 @@ public class CharacterMovement : NetworkBehaviour
     void Start()
     {
         charCntrl = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>(); 
     }
 
     // Update is called once per frame
@@ -49,6 +51,11 @@ public class CharacterMovement : NetworkBehaviour
             moveVect *= speed;
     
             charCntrl.SimpleMove(moveVect);
+            float movementSpeed = new Vector2(moveVect.x, moveVect.z).magnitude;
+            if (animator != null)
+            {
+                animator.SetFloat("Speed", movementSpeed);
+            }
 
         }
     }
