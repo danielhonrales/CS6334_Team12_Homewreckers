@@ -5993,7 +5993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0, b: 0.95919466, a: 1}
-  outlineWidth: 2
+  outlineWidth: 4
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -6997,7 +6997,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 514130392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 127c0860c07aa834bba35460d5cf604f, type: 3}
+  m_Script: {fileID: 11500000, guid: ff7af01f0f343f64bbf2c4e82563995c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
@@ -7017,7 +7017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 0, b: 0.95919466, a: 1}
-  outlineWidth: 2
+  outlineWidth: 4
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -8095,7 +8095,8 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 65702495048144492, guid: a9cd7597a35152847a168420c63baed3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9cd7597a35152847a168420c63baed3, type: 3}
@@ -9232,8 +9233,8 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 192.168.1.86
-    Port: 7777
+    Address: 10.176.216.128
+    Port: 7778
     ServerListenAddress: 0.0.0.0
   DebugSimulator:
     PacketDelayMS: 0
@@ -9255,7 +9256,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 753298487}
-    PlayerPrefab: {fileID: 2900071249138355108, guid: e89d948f47adba2468ef7110ef5f2c9b, type: 3}
+    PlayerPrefab: {fileID: 4569903852642154894, guid: 93767cb6463944235bcd94db1ef21e5c, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 27858942d9976464180758111266883a, type: 2}
@@ -10184,13 +10185,11 @@ PrefabInstance:
     - {fileID: 7512990267900934608, guid: 66a3f65b9a8463545a574a9d203a660e, type: 3}
     - {fileID: 6232009983288389340, guid: 66a3f65b9a8463545a574a9d203a660e, type: 3}
     - {fileID: 250764934207837143, guid: 66a3f65b9a8463545a574a9d203a660e, type: 3}
+    - {fileID: 8688898644657511142, guid: 66a3f65b9a8463545a574a9d203a660e, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 324542617436095038, guid: 66a3f65b9a8463545a574a9d203a660e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1853829817}
-    - targetCorrespondingSourceObject: {fileID: -1390263497469937105, guid: 66a3f65b9a8463545a574a9d203a660e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1074904942}
     - targetCorrespondingSourceObject: {fileID: -1390263497469937105, guid: 66a3f65b9a8463545a574a9d203a660e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1110193453}
@@ -10490,7 +10489,7 @@ GameObject:
   - component: {fileID: 1074904942}
   - component: {fileID: 1074904944}
   - component: {fileID: 1074904943}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Object_666 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10505,12 +10504,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074904941}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.054722223, y: 0, z: 0.037867036}
+  m_LocalScale: {x: 0.010382875, y: 0.010382869, z: 0.010382869}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 973797614}
+  m_Father: {fileID: 1751865623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1074904943
 MeshRenderer:
@@ -11909,8 +11908,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.057543166, y: 0.39197138, z: 0.22338027}
-  m_Center: {x: -2.611325, y: 0.27587795, z: 1.3131715}
+  m_Size: {x: 0.057542864, y: 0.3641108, z: 0.21963416}
+  m_Center: {x: -2.611325, y: 0.26194757, z: 1.28177}
 --- !u!114 &1324511064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11918,14 +11917,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324511061}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.47058824, g: 0, b: 1, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0, g: 0.088020325, b: 1, a: 1}
+  outlineWidth: 4
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -17867,6 +17866,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1916725439}
+  - {fileID: 1074904942}
   m_Father: {fileID: 5770031875329955996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1751865624
@@ -17897,14 +17897,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751865622}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.46979094, g: 0, b: 1, a: 1}
-  outlineWidth: 2
+  outlineColor: {r: 0.066726685, g: 0, b: 1, a: 1}
+  outlineWidth: 4
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

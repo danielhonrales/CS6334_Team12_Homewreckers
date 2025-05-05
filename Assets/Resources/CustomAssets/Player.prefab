@@ -406,7 +406,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 7b2e6e1c89e4f9d4faf0f288a376684f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -432,7 +432,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1258,7 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 163916316
+  GlobalObjectIdHash: 2238078730
   InScenePlacedSourceGlobalObjectIdHash: 2781012349
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1336,16 +1336,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 1
-  AutoOwnerAuthorityTickOffset: 1
-  PositionInterpolationType: 0
-  RotationInterpolationType: 0
-  ScaleInterpolationType: 0
-  PositionLerpSmoothing: 1
-  PositionMaxInterpolationTime: 0.1
-  RotationLerpSmoothing: 1
-  RotationMaxInterpolationTime: 0.1
-  ScaleLerpSmoothing: 1
-  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -1426,7 +1416,7 @@ MonoBehaviour:
   gazedUI: {fileID: 0}
   reticle: {fileID: 2626147536815497142}
   lineRenderer: {fileID: 4467033096651134470}
-  raycastOffset: {x: 0, y: -0.1, z: 0}
+  raycastOffset: {x: 0.1, y: -0.1, z: 0}
   teleportation: {fileID: 3928373369879552473}
   raycastLength: 5
   raycastLengthBeforeUI: 0

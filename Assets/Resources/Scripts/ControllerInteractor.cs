@@ -143,7 +143,6 @@ public class ControllerInteractor : NetworkBehaviour
         if (gazedObject != null) {
             gazedObject.layer = LayerMask.NameToLayer("Grabbed");
             gazedObject.GetComponent<Collider>().enabled = false;
-            gazedObject.GetComponent<Rigidbody>().isKinematic = true;
             gazedObject.GetComponent<Rigidbody>().freezeRotation = true;
             //gazedObject.transform.parent = gazeInteractor.cameraObject.transform;
             grabbedObject = gazedObject;

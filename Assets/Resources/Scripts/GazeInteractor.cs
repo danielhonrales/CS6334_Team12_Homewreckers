@@ -34,7 +34,7 @@ public class GazeInteractor : NetworkBehaviour
         if (IsOwner) {
             //reticle.SetActive(true);
             lineRenderer.positionCount = 2;
-            lineRenderer.SetPosition(0, cameraObject.transform.position + raycastOffset);
+            lineRenderer.SetPosition(0, cameraObject.transform.position + (cameraObject.transform.up * -0.1f) + (cameraObject.transform.right * 0.1f));
             Outline outline;
 
             Ray ray = new(cameraObject.transform.position + raycastOffset, cameraObject.transform.forward);
@@ -65,6 +65,19 @@ public class GazeInteractor : NetworkBehaviour
                 }
 
                 if (hitObject.layer == LayerMask.NameToLayer("Door")) {
+                    if (hitObject != gazedObject)
+                    {
+                        if (gazedObject != null && (outline = gazedObject.GetComponent<Outline>()) != null)
+                        {
+                            outline.enabled = false;
+                        }
+                        // Update current gazed object
+                        gazedObject = hitObject;
+                        if ((outline = gazedObject.GetComponent<Outline>()) != null)
+                        {
+                            outline.enabled = true;
+                        }
+                    }
                     lineRenderer.SetPosition(1, hit.point);
                     teleportation.ChangeRooms();
                 } else {
