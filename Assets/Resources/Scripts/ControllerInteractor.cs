@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.Netcode.Components;
+using System.Collections;
 
 public class ControllerInteractor : NetworkBehaviour
 {
@@ -143,7 +145,6 @@ public class ControllerInteractor : NetworkBehaviour
         if (gazedObject != null) {
             gazedObject.layer = LayerMask.NameToLayer("Grabbed");
             gazedObject.GetComponent<Collider>().enabled = false;
-            gazedObject.GetComponent<Rigidbody>().freezeRotation = true;
             //gazedObject.transform.parent = gazeInteractor.cameraObject.transform;
             grabbedObject = gazedObject;
             RequestOwnershipServerRpc(NetworkManager.Singleton.LocalClientId, grabbedObject.GetComponent<NetworkObject>());
@@ -155,6 +156,7 @@ public class ControllerInteractor : NetworkBehaviour
     void RequestOwnershipServerRpc(ulong requestingClientId, NetworkObjectReference networkObjectRef)
     {
         if (networkObjectRef.TryGet(out NetworkObject networkObject)) {
+            Debug.Log(requestingClientId + "claiming ownership of knife");
             networkObject.ChangeOwnership(requestingClientId);
         }
     }
@@ -162,16 +164,20 @@ public class ControllerInteractor : NetworkBehaviour
 
     public void UngrabObject() {
         if (grabbedObject != null) {
+            grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
             grabbedObject.transform.parent = null;
             grabbedObject.GetComponent<Collider>().enabled = true;
-            grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
-            grabbedObject.GetComponent<Rigidbody>().freezeRotation = false;
             grabbedObject.layer = LayerMask.NameToLayer("Interactable");
             grabbedObject.GetComponent<InteractableObject>().grabbable = true;
             grabbedObject.GetComponent<InteractableObject>().TriggerRelease();
-            ReturnOwnershipToServerRpc(grabbedObject.GetComponent<NetworkObject>());
+            StartCoroutine(ReturnToServer());
             grabbedObject = null;
         }
+    }
+
+    private IEnumerator ReturnToServer() {
+        yield return new WaitForSeconds(1);
+        ReturnOwnershipToServerRpc(grabbedObject.GetComponent<NetworkObject>());
     }
 
     [ServerRpc(RequireOwnership = false)]

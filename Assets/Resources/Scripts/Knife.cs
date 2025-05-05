@@ -25,7 +25,12 @@ public class Knife : NetworkBehaviour
     public void Release() {
         if (!IsOwner) return;
         rb.constraints = RigidbodyConstraints.None;
-        rb.AddForce(GameObject.Find("PlayerMe").GetComponent<GazeInteractor>().cameraObject.transform.forward * 1000f);
+        float bias = 0.15f;
+        Vector3 forward = GameObject.Find("PlayerMe").GetComponent<GazeInteractor>().cameraObject.transform.forward;
+        Vector3 up = Vector3.up;
+        Vector3 releaseDirection = Vector3.Slerp(forward, up, bias);
+        Debug.Log(releaseDirection);
+        rb.AddForce(releaseDirection * 30f, ForceMode.Impulse);
         
         audioSource.Play();
     }

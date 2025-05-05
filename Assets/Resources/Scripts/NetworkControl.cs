@@ -3,11 +3,14 @@ using Unity.Netcode;
 using System.Threading.Tasks;
 using System;
 using Unity.Netcode.Transports.UTP;
+using TMPro;
+using Unity.VisualScripting;
 
 public class NetworkControl : NetworkBehaviour
 {
 
     public NetworkVariable<int> destructionPoints = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public TMP_InputField inputIP;
 
     public void StartServer() {
         NetworkManager.Singleton.StartServer();
@@ -27,6 +30,10 @@ public class NetworkControl : NetworkBehaviour
 
     public void Update()
     {
+        if (inputIP.text == "-") {
+            var transport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+            inputIP.text = transport.ConnectionData.Address;
+        }
         if (!NetworkManager.Singleton.IsConnectedClient && !NetworkManager.Singleton.IsHost) {
             if (Input.GetButtonDown(ButtonMappings.GetMapping("Menu")) || Input.GetKeyDown(KeyCode.M)) {
                 ConnectPlayer();
@@ -37,7 +44,7 @@ public class NetworkControl : NetworkBehaviour
     public async void ConnectPlayer() {
         Debug.Log("Starting client");
         var clientTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
-        //clientTransport.ConnectionData.Address = "192.168.0.196";
+        clientTransport.ConnectionData.Address = inputIP.text;
         //clientTransport.ConnectionData.Port = 7777;
         StartClient();
         await Task.Delay(1000);
@@ -47,12 +54,14 @@ public class NetworkControl : NetworkBehaviour
             NetworkManager.Singleton.Shutdown();
             await Task.Yield();
             var hostTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
-            //hostTransport.ConnectionData.Address = "0.0.0.0";
+            hostTransport.ConnectionData.Address = inputIP.text;
             //hostTransport.ConnectionData.Port = 7777;
             StartHost();
         } else {
             Debug.Log("Connected as client");
         }
+
+        inputIP.gameObject.SetActive(false);
     }
 
     [ServerRpc(RequireOwnership = false)]
