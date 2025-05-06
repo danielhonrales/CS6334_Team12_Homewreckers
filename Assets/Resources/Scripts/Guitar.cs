@@ -5,9 +5,12 @@ public class Guitar : NetworkBehaviour
 {
 
     public Rigidbody rb;
+    public AudioSource musicSource;
     public AudioSource audioSource;
     public Mesh mesh;
     public MeshFilter meshFilter;
+
+    public int score;
 
     public NetworkVariable<bool> interactedWith = new(
         false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -17,7 +20,7 @@ public class Guitar : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        score = 0;
     }
 
     // Update is called once per frame
@@ -39,6 +42,20 @@ public class Guitar : NetworkBehaviour
         rb.AddForce(GameObject.Find("PlayerMe").GetComponent<GazeInteractor>().cameraObject.transform.forward * 1000f);
         
         audioSource.Play();
+    }
+
+    public void Interact() {
+        if (!broken.Value) {
+            Debug.Log("play guitar");
+            musicSource.pitch = Random.Range(.5f, 2f);
+            musicSource.Play();
+
+            score++;
+            if (score >= 3) {
+                GameObject.Find("GameController").GetComponent<NetworkControl>().DecreaseDestructionServerRpc();
+                score = 0;
+            }
+        }
     }
 
     void OnCollisionEnter(Collision collision)

@@ -18,20 +18,25 @@ public class GazeInteractor : NetworkBehaviour
     public Teleportation teleportation;
     public int raycastLength;
     public int raycastLengthBeforeUI;
+    public GameObject avatar;
 
     public LayerMask layerMask;
-    
+
+    private float previousPitch;
+    private float previousDelta;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        previousPitch = cameraObject.transform.eulerAngles.x;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (IsOwner) {
+            avatar.transform.rotation = Quaternion.Euler(avatar.transform.rotation.eulerAngles.x, cameraObject.transform.rotation.eulerAngles.y, avatar.transform.rotation.eulerAngles.z);
             //reticle.SetActive(true);
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, cameraObject.transform.position + (cameraObject.transform.up * -0.1f) + (cameraObject.transform.right * 0.1f));
@@ -114,6 +119,17 @@ public class GazeInteractor : NetworkBehaviour
                 lineRenderer.SetPosition(1, cameraObject.transform.position + (cameraObject.transform.forward * raycastLength));
             }
 
+            float currentPitch = cameraObject.transform.eulerAngles.x;
+            float deltaPitch = Mathf.DeltaAngle(previousPitch, currentPitch);
+
+            if (Mathf.Abs(deltaPitch) > .5f && previousDelta != Math.Sign(deltaPitch)) // tune this threshold
+            {
+                if (controllerInteractor.grabbedObject != null && controllerInteractor.grabbedObject.name == "Guitar") {
+                    controllerInteractor.grabbedObject.GetComponent<InteractableObject>().TriggerInteraction();
+                }
+            }
+            previousPitch = currentPitch;
+            previousDelta = Math.Sign(deltaPitch);
         }
     }
 

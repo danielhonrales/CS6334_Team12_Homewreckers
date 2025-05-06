@@ -202,7 +202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -44, y: 242}
+  m_AnchoredPosition: {x: -106.99977, y: 297.0001}
   m_SizeDelta: {x: 85.099976, y: 19.259995}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &2074347800185029747
@@ -831,7 +831,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -1035,7 +1035,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -70, y: 147}
+  m_AnchoredPosition: {x: -132.99977, y: 202.00009}
   m_SizeDelta: {x: 56.880005, y: 19.259995}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &101686120757056867
@@ -1420,6 +1420,7 @@ MonoBehaviour:
   teleportation: {fileID: 3928373369879552473}
   raycastLength: 5
   raycastLengthBeforeUI: 0
+  avatar: {fileID: 770104682195436391}
   layerMask:
     serializedVersion: 2
     m_Bits: 672
@@ -1524,7 +1525,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -25, y: 30}
+  m_AnchoredPosition: {x: -88, y: 85}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &2015769999104478741
@@ -1798,7 +1799,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -85, y: 101}
+  m_AnchoredPosition: {x: -147.99977, y: 156.00009}
   m_SizeDelta: {x: 42.53003, y: 19.259995}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &3467586819975561053
@@ -1980,7 +1981,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -58, y: 195}
+  m_AnchoredPosition: {x: -120.99977, y: 250.00009}
   m_SizeDelta: {x: 69.70001, y: 19.259995}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &6692001390200728727
@@ -2079,7 +2080,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -2272,7 +2273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 255e7b41d8ec6654fa52e50e05e53a96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.488
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 255e7b41d8ec6654fa52e50e05e53a96, type: 3}
       propertyPath: m_LocalPosition.z

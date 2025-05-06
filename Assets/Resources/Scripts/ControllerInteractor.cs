@@ -106,7 +106,7 @@ public class ControllerInteractor : NetworkBehaviour
                     if (grabbedObject.GetComponent<NetworkObject>().IsOwner) {
                         grabbedObject.transform.position = gazeInteractor.cameraObject.transform.position + gazeInteractor.cameraObject.transform.forward * grabOffset.z + gazeInteractor.cameraObject.transform.right * grabOffset.x + gazeInteractor.cameraObject.transform.up * grabOffset.y;
                         //grabbedObject.transform.localPosition = new Vector3(grabbedObject.transform.localPosition.x, Math.Min(0.5f, grabbedObject.transform.localPosition.y), grabbedObject.transform.localPosition.z);
-                        grabbedObject.transform.localRotation = Quaternion.Euler(Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, 0f);
+                        grabbedObject.transform.localRotation = Quaternion.Euler(Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 30f, Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 30f, 0f);
                     }/*  else { 
                         Vector3 targetPosition = gazeInteractor.cameraObject.transform.position + gazeInteractor.cameraObject.transform.forward * grabOffset.z + gazeInteractor.cameraObject.transform.right * grabOffset.x + gazeInteractor.cameraObject.transform.up * grabOffset.y;
                         Quaternion targetRotation = Quaternion.Euler(Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, Mathf.Sin(Time.time * 60f * Mathf.Deg2Rad) * 45f, 0f);
