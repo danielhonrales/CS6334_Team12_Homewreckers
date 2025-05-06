@@ -11,6 +11,7 @@ public class NetworkControl : NetworkBehaviour
 
     public NetworkVariable<int> destructionPoints = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public TMP_InputField inputIP;
+    public GameObject startCamera;
 
     public void StartServer() {
         NetworkManager.Singleton.StartServer();
@@ -62,6 +63,7 @@ public class NetworkControl : NetworkBehaviour
         }
 
         inputIP.gameObject.SetActive(false);
+        startCamera.SetActive(false);
     }
 
     [ServerRpc(RequireOwnership = false)]

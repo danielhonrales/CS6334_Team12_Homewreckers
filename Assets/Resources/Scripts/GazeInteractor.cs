@@ -19,6 +19,7 @@ public class GazeInteractor : NetworkBehaviour
     public int raycastLength;
     public int raycastLengthBeforeUI;
     public GameObject avatar;
+    public GameObject player;
 
     public LayerMask layerMask;
 
@@ -37,6 +38,7 @@ public class GazeInteractor : NetworkBehaviour
     {
         if (IsOwner) {
             avatar.transform.rotation = Quaternion.Euler(avatar.transform.rotation.eulerAngles.x, cameraObject.transform.rotation.eulerAngles.y, avatar.transform.rotation.eulerAngles.z);
+            player.transform.rotation = Quaternion.Euler(player.transform.rotation.eulerAngles.x, cameraObject.transform.rotation.eulerAngles.y, player.transform.rotation.eulerAngles.z);
             //reticle.SetActive(true);
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, cameraObject.transform.position + (cameraObject.transform.up * -0.1f) + (cameraObject.transform.right * 0.1f));

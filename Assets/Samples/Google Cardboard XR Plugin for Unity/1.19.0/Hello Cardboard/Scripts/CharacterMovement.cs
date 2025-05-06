@@ -12,18 +12,42 @@ public class CharacterMovement : NetworkBehaviour
     [Tooltip("Should be checked if using the Bluetooth Controller to move. If using keyboard, leave this unchecked.")]
     public bool joyStickMode;
     public GazeInteractor gazeInteractor;
-    public bool adult;
+    public GameObject avatar;
+
+    public Vector3 prevPos;
+    public NetworkVariable<bool> adult = new(
+        false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     // Start is called before the first frame update
     void Start()
     {
         charCntrl = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>(); 
+
+        prevPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (adult.Value)
+        {
+            speed = 5f;
+            charCntrl.height = 3;
+            gazeInteractor.raycastLength = 10;
+            avatar.transform.localScale = new Vector3(2f, 2f, 2f);
+            avatar.transform.localPosition = new Vector3(0, -1.8f, 0);
+        }
+        else
+        {
+            speed = 8f;
+            charCntrl.height = 1;
+            gazeInteractor.raycastLength = 5;
+            avatar.transform.localScale = new Vector3(1f, 1f, 1f);
+            avatar.transform.localPosition = new Vector3(0, -0.8f, 0);
+        }
+
         if (IsOwner) {
             //Get horizontal and Vertical movements
             float horComp = Input.GetAxis("Horizontal");
@@ -56,41 +80,31 @@ public class CharacterMovement : NetworkBehaviour
             {
                 animator.SetFloat("Speed", movementSpeed);
             }
-
-        }
-    }
-
-    public IEnumerator SetRole(bool adult = false) {
-        while (!charCntrl) {
-            yield return new WaitForSeconds(.1f);
-        }
-        if (adult) {
-            speed = 5f;
-            charCntrl.height = 4;
-            gazeInteractor.raycastLength = 10;
-            charCntrl.enabled = false;
-            transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);
-            charCntrl.enabled = true;
         } else {
-            speed = 8f;
-            charCntrl.height = 1;
-            gazeInteractor.raycastLength = 5;
+            if (animator != null)
+            {
+                if ((prevPos - transform.position).magnitude > .001f) {
+                    animator.SetFloat("Speed", 1);
+                } else {
+                    animator.SetFloat("Speed", 0);
+                }
+                prevPos = transform.position;
+            }
         }
     }
 
     public void ToggleRole() {
-        adult = !adult;
-        if (adult) {
-            speed = 5f;
-            charCntrl.height = 3;
-            gazeInteractor.raycastLength = 10;
+        SetRoleServerRpc(!adult.Value);
+        if (adult.Value) {
             charCntrl.enabled = false;
             transform.position = new Vector3(transform.position.x, 2.5f, transform.position.z);
             charCntrl.enabled = true;
-        } else {
-            speed = 8f;
-            charCntrl.height = 1;
-            gazeInteractor.raycastLength = 5;
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetRoleServerRpc(bool value)
+    {
+        adult.Value = value;
     }
 }

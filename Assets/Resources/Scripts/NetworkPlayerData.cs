@@ -38,7 +38,6 @@ public class NetworkPlayerData : NetworkBehaviour
             vrCameraRig.SetActive(true);
             if (IsHost) {
                 SetPlayerNameServerRpc("Host");
-                StartCoroutine(characterMovement.SetRole(true));
             } else {
                 SetPlayerNameServerRpc("Client");
             }
