@@ -61,10 +61,12 @@ public class Guitar : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && interactedWith.Value && !broken.Value) {
-            meshFilter.mesh = mesh;
-            GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestructionServerRpc();
-            SetBrokenServerRpc(true);
+        if (!GameObject.Find("PlayerMe").GetComponent<CharacterMovement>().adult.Value) {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && interactedWith.Value && !broken.Value) {
+                meshFilter.mesh = mesh;
+                GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestructionServerRpc();
+                SetBrokenServerRpc(true);
+            }
         }
     }
 

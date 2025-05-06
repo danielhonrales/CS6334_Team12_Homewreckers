@@ -19,12 +19,14 @@ public class WireShock : MonoBehaviour
 
     void OnTriggerEnter(UnityEngine.Collider other)
     {
-        if (interactable) {
-            StartCoroutine(Cooldown());
-            OnShock(); // Trigger shock effect
-            ShockServerRpc();
-            audioSource.Play();
-            Debug.Log("Player interacted with wire! Destruction bar increased.");
+        if (!other.gameObject.GetComponent<CharacterMovement>().adult.Value) {
+            if (interactable) {
+                StartCoroutine(Cooldown());
+                OnShock(); // Trigger shock effect
+                ShockServerRpc();
+                audioSource.Play();
+                Debug.Log("Player interacted with wire! Destruction bar increased.");
+            }
         }
     }
 

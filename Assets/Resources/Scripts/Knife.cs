@@ -40,8 +40,9 @@ public class Knife : NetworkBehaviour
         Debug.Log(collision.gameObject.name);
         rb.constraints = RigidbodyConstraints.FreezeAll;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
-            
-            GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestructionServerRpc();
+            if (!GameObject.Find("PlayerMe").GetComponent<CharacterMovement>().adult.Value) {
+                GameObject.Find("GameController").GetComponent<NetworkControl>().IncreaseDestructionServerRpc();
+            }
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("CuttingBoard")) {

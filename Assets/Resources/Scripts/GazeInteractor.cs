@@ -26,19 +26,28 @@ public class GazeInteractor : NetworkBehaviour
     private float previousPitch;
     private float previousDelta;
 
+    public NetworkVariable<float> yRot = new(
+        0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         previousPitch = cameraObject.transform.eulerAngles.x;
+        if (IsOwner) {
+            avatar.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        avatar.transform.rotation = Quaternion.Euler(avatar.transform.rotation.eulerAngles.x, yRot.Value, avatar.transform.rotation.eulerAngles.z);
         if (IsOwner) {
-            avatar.transform.rotation = Quaternion.Euler(avatar.transform.rotation.eulerAngles.x, cameraObject.transform.rotation.eulerAngles.y, avatar.transform.rotation.eulerAngles.z);
-            player.transform.rotation = Quaternion.Euler(player.transform.rotation.eulerAngles.x, cameraObject.transform.rotation.eulerAngles.y, player.transform.rotation.eulerAngles.z);
+            SetYRotServerRpc(cameraObject.transform.rotation.eulerAngles.y);
+        }
+        if (IsOwner) {
+            //player.transform.rotation = Quaternion.Euler(player.transform.rotation.eulerAngles.x, cameraObject.transform.rotation.eulerAngles.y, player.transform.rotation.eulerAngles.z);
             //reticle.SetActive(true);
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, cameraObject.transform.position + (cameraObject.transform.up * -0.1f) + (cameraObject.transform.right * 0.1f));
@@ -153,5 +162,11 @@ public class GazeInteractor : NetworkBehaviour
     void OnEnable()
     {
         lineRenderer.enabled = true;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetYRotServerRpc(float value)
+    {
+        yRot.Value = value;
     }
 }
