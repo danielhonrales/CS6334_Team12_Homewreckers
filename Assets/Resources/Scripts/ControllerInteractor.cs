@@ -18,6 +18,12 @@ public class ControllerInteractor : NetworkBehaviour
     public GameObject grabbedObject;
     public Vector3 grabOffset;
 
+    public Animator animator;
+    public NetworkVariable<bool> grabAnim = new(
+        false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> throwAnim = new(
+        false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +39,16 @@ public class ControllerInteractor : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (grabAnim.Value) {
+            SetGrabAnimServerRpc(false);
+            animator.Play("Grab");
+        }
+
+        if (throwAnim.Value) {
+            SetThrowAnimServerRpc(false);
+            animator.Play("Throw");
+        }
+
         if (IsOwner) {
             /* for (int i = 0; i < 15; i++) {
                 if (Input.GetAxis(string.Format("js{0}", i)) != 0) {
@@ -117,12 +133,16 @@ public class ControllerInteractor : NetworkBehaviour
         }
     }
 
-    [ClientRpc(RequireOwnership = false)]
-    void RequestMoveClientRpc(Vector3 newPosition, Quaternion newRotation)
+    [ServerRpc(RequireOwnership = false)]
+    void SetGrabAnimServerRpc(bool value)
     {
-        Debug.Log(name + " is grabbing something");
-        grabbedObject.transform.position = newPosition;
-        grabbedObject.transform.localRotation = newRotation;
+        grabAnim.Value = value;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetThrowAnimServerRpc(bool value)
+    {
+        throwAnim.Value = value;
     }
 
     public void TranslateObject() {
@@ -143,6 +163,7 @@ public class ControllerInteractor : NetworkBehaviour
         UngrabObject();
         GameObject gazedObject = (objectToGrab == null) ? gazeInteractor.gazedObject : objectToGrab;
         if (gazedObject != null) {
+            SetGrabAnimServerRpc(true);
             gazedObject.layer = LayerMask.NameToLayer("Grabbed");
             gazedObject.GetComponent<Collider>().enabled = false;
             //gazedObject.transform.parent = gazeInteractor.cameraObject.transform;
@@ -164,6 +185,7 @@ public class ControllerInteractor : NetworkBehaviour
 
     public void UngrabObject() {
         if (grabbedObject != null) {
+            SetThrowAnimServerRpc(true);
             grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
             grabbedObject.transform.parent = null;
             grabbedObject.GetComponent<Collider>().enabled = true;

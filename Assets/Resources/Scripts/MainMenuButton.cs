@@ -39,6 +39,7 @@ public class MainMenuButton : MonoBehaviour
 
     public void StartRound() {
         GameObject.Find("GameController").GetComponent<GameController>().StartGame();
+        mainMenu.CloseMenu();
     }
 
     public void Quit() {

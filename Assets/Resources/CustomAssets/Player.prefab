@@ -1144,7 +1144,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -88.89998, y: 260}
+  m_AnchoredPosition: {x: -88.89996, y: 260}
   m_SizeDelta: {x: 56.880005, y: 19.259995}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &101686120757056867
@@ -1509,6 +1509,9 @@ MonoBehaviour:
   mainMenu: {fileID: 8721330178529970839}
   grabbedObject: {fileID: 0}
   grabOffset: {x: 0.5, y: -0.3, z: 1.33}
+  animator: {fileID: 3207932111541300766}
+  grabAnim:
+    m_InternalValue: 0
 --- !u!114 &7671304839005284512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1537,6 +1540,8 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 672
+  yRot:
+    m_InternalValue: 0
 --- !u!114 &3928373369879552473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,7 +1643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -43.899994, y: 143.00008}
+  m_AnchoredPosition: {x: -43.899963, y: 143.00008}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &2015769999104478741
@@ -2222,7 +2227,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -103.89998, y: 214}
+  m_AnchoredPosition: {x: -103.89996, y: 214}
   m_SizeDelta: {x: 42.53003, y: 19.259995}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &3467586819975561053
@@ -2404,7 +2409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -76.89998, y: 308}
+  m_AnchoredPosition: {x: -76.89996, y: 308}
   m_SizeDelta: {x: 69.70001, y: 19.259995}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &6692001390200728727
@@ -2749,6 +2754,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 255e7b41d8ec6654fa52e50e05e53a96, type: 3}
+--- !u!95 &3207932111541300766 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 255e7b41d8ec6654fa52e50e05e53a96, type: 3}
+  m_PrefabInstance: {fileID: 9074270476175168399}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8819439600444453988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 255e7b41d8ec6654fa52e50e05e53a96, type: 3}
