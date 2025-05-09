@@ -29,6 +29,10 @@ public class Guitar : NetworkBehaviour
         if (broken.Value && meshFilter.mesh != mesh) {
             meshFilter.mesh = mesh;
         }
+        if (transform.position.y < -.3f)
+        {
+            transform.position = new Vector3(transform.position.x, .1f, transform.position.z);
+        }
     }
 
     public void Grab() {

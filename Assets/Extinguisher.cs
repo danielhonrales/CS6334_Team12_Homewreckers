@@ -17,7 +17,9 @@ public class Extinguisher : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (transform.position.y < -.3f) {
+            transform.position = new Vector3(transform.position.x, .1f, transform.position.z);
+        }
     }
 
     public void Extinguish() {
